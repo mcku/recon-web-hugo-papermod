@@ -1,0 +1,1164 @@
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+new file mode 100644
+index 0000000..b7d5b28
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/bug_report.md
+@@ -0,0 +1,50 @@
++---
++name: Bug report
++about: Create a report to help us improve
++title: "[BUG]"
++labels: bug
++assignees: ''
++
++---
++
++<!--
++
++## READ BEFORE OPENING ISSUES
++
++Please fill the template below
++- **DO NOT** ask for instructions.
++- Use Discussions section if you need help
++- See project wiki https://github.com/adityatelange/hugo-PaperMod/wiki
++- Read FAQs section https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs
++- Search for previous issues/ pull requests
++
++-->
++
++**Describe the bug**
++<!-- A clear and concise description of what the bug is. -->
++
++ - Device/Os: [e.g. Android 10]
++ - Type: [e.g. Desktop/Mobile]
++ - Browser and version [e.g. Chrome 86.0]:
++ - Hugo Version [ >=0.97.1 expected]:
++ - Theme Version [e.g. v4.0, master, or commit-id ]:
++
++**Steps to reproduce the behavior:**
++<!--
++1. Go to '...'
++2. Click on '....'
++3. Scroll down to '....'
++4. See error
++-->
++
++**Expected behavior**:
++<!-- A clear and concise description of what you expected to happen. -->
++
++**Repo/Source where this issue can be reproduced**:
++<!-- Please link source code of website where the said issue can be reproduced -->
++
++**Screenshots**
++<!-- If applicable, add screenshots to help explain your problem. -->
++
++**Additional context**
++<!--Add any other context about the problem here. -->
+diff --git a/.github/ISSUE_TEMPLATE/config.yml b/.github/ISSUE_TEMPLATE/config.yml
+new file mode 100644
+index 0000000..1a4dd9b
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/config.yml
+@@ -0,0 +1,5 @@
++blank_issues_enabled: false
++contact_links:
++  - name: PaperMod Discussions
++    url: https://github.com/adityatelange/hugo-PaperMod/discussions
++    about: Please ask and answer questions/doubts here, do not open an issue for questions.
+diff --git a/.github/ISSUE_TEMPLATE/new-blank-issue.md b/.github/ISSUE_TEMPLATE/new-blank-issue.md
+new file mode 100644
+index 0000000..dbc48f1
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/new-blank-issue.md
+@@ -0,0 +1,7 @@
++---
++name: New Blank Issue
++about: Anything other than bug report
++title: ""
++labels: ""
++assignees: ""
++---
+diff --git a/.github/PULL_REQUEST_TEMPLATE.md b/.github/PULL_REQUEST_TEMPLATE.md
+new file mode 100644
+index 0000000..00b856c
+--- /dev/null
++++ b/.github/PULL_REQUEST_TEMPLATE.md
+@@ -0,0 +1,44 @@
++<!--
++
++## READ BEFORE OPENING A PR
++
++Thank you for contributing to hugo-PaperMod!
++Please fill out the following questions to make it easier for us to review your
++changes. You do not need to check all the boxes below.
++
++**NOTE**: PaperMod does not have any external dependencies fetched from 3rd party
++CDN servers. However we do have custom Head/Footer extender templates which you can use
++to add those to your website.
++https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#custom-head--footer
++
++-->
++
++
++**What does this PR change? What problem does it solve?**
++
++<!--
++Describe the changes and their purpose here, as detailed as and if  needed.
++
++Please do not add 2 unrelated changes in a single PR as it is difficult to track/revert those in future.
++-->
++
++
++**Was the change discussed in an issue or in the Discussions before?**
++
++<!--
++Link issues and relevant Discussions posts here.
++
++If this PR resolves an issue on GitHub, use "Closes #1234" so that the issue
++is closed automatically when this PR is merged.
++-->
++
++
++## PR Checklist
++
++- [ ] This change adds/updates translations and I have used the [template present here](https://github.com/adityatelange/hugo-PaperMod/wiki/Translations#want-to-add-your-language-).
++- [ ] I have enabled [maintainer edits for this PR](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork).
++- [ ] I have verified that the code works as described/as intended.
++- [ ] This change adds a Social Icon which has a permissive license to use it.
++- [ ] This change **does not** include any CDN resources/links.
++- [ ] This change **does not** include any unrelated scripts such as bash and python scripts.
++- [ ] This change updates the overridden internal templates from HUGO's repository.
+diff --git a/.github/stale.yml b/.github/stale.yml
+new file mode 100644
+index 0000000..7b5f571
+--- /dev/null
++++ b/.github/stale.yml
+@@ -0,0 +1,17 @@
++# Number of days of inactivity before an issue becomes stale
++daysUntilStale: 7
++# Number of days of inactivity before a stale issue is closed
++daysUntilClose: 3
++# Issues with these labels will never be considered stale
++exemptLabels:
++  - pinned
++  - keep
++# Label to use when marking an issue as stale
++staleLabel: stale
++# Comment to post when marking an issue as stale. Set to `false` to disable
++markComment: >
++  This issue has been automatically marked as stale because it has not had
++  recent activity. It will be closed if no further activity occurs. Thank you
++  for your contributions.
++# Comment to post when closing a stale issue. Set to `false` to disable
++closeComment: false
+diff --git a/.github/workflows/gh-pages.yml b/.github/workflows/gh-pages.yml
+new file mode 100644
+index 0000000..4f59e30
+--- /dev/null
++++ b/.github/workflows/gh-pages.yml
+@@ -0,0 +1,80 @@
++name: Deploy Hugo PaperMod Demo to Pages
++
++on:
++  push:
++    paths-ignore:
++      - "images/**"
++      - "LICENSE"
++      - "README.md"
++    branches:
++      - master
++      - exampleSite
++  workflow_dispatch:
++    # manual run
++    inputs:
++      hugoVersion:
++        description: "Hugo Version"
++        required: false
++        default: "0.97.1"
++
++# Allow one concurrent deployment
++concurrency:
++  group: "pages"
++  cancel-in-progress: true
++
++# Default to bash
++defaults:
++  run:
++    shell: bash
++
++# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
++permissions:
++  contents: read
++  pages: write
++  id-token: write
++
++jobs:
++  # Build job
++  build:
++    runs-on: ubuntu-latest
++    env:
++      HUGO_VERSION: "0.97.1"
++    steps:
++      - name: Check version
++        if: ${{ github.event.inputs.hugoVersion }}
++        run: export HUGO_VERSION="${{ github.event.inputs.hugoVersion }}"
++      - name: Install Hugo CLI
++        run: |
++          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb \
++          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
++      - name: Checkout
++        uses: actions/checkout@v3
++        with:
++          ref: exampleSite
++      - name: Setup Pages
++        id: pages
++        uses: actions/configure-pages@v1
++      - name: Get Theme
++        run: git submodule update --init --recursive
++      - name: Update theme to Latest commit
++        run: git submodule update --remote --merge
++      - name: Build with Hugo
++        run: |
++          hugo \
++            --buildDrafts --gc --verbose \
++            --baseURL ${{ steps.pages.outputs.base_url }}
++      - name: Upload artifact
++        uses: actions/upload-pages-artifact@v1
++        with:
++          path: ./public
++  # Deployment job
++  deploy:
++    environment:
++      name: github-pages
++      url: ${{ steps.deployment.outputs.page_url }}
++    runs-on: ubuntu-latest
++    needs: build
++    steps:
++      - name: Deploy to GitHub Pages
++        id: deployment
++        uses: actions/deploy-pages@v1
+diff --git a/.hugo_build.lock b/.hugo_build.lock
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/archetypes/default.md b/archetypes/default.md
+deleted file mode 100644
+index 00e77bd..0000000
+--- a/archetypes/default.md
++++ /dev/null
+@@ -1,6 +0,0 @@
+----
+-title: "{{ replace .Name "-" " " | title }}"
+-date: {{ .Date }}
+-draft: true
+----
+-
+diff --git a/go.mod b/go.mod
+index d219d82..af95855 100644
+--- a/go.mod
++++ b/go.mod
+@@ -1,3 +1,3 @@
+ module github.com/adityatelange/hugo-PaperMod
+ 
+-go 1.18
++go 1.12
+diff --git a/hugo.yml b/hugo.yml
+deleted file mode 100644
+index 7ea1917..0000000
+--- a/hugo.yml
++++ /dev/null
+@@ -1,3 +0,0 @@
+-baseURL: "http://www.recon.com.tr/"
+-languageCode: "en-us"
+-title: "Recon Teknoloji Danışmanlık | Recon Technology Consulting"
+diff --git a/public/404.html b/public/404.html
+deleted file mode 100644
+index 1f9bfc5..0000000
+--- a/public/404.html
++++ /dev/null
+@@ -1,185 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en" dir="auto">
+-
+-<head><meta charset="utf-8">
+-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+-<meta name="robots" content="index, follow">
+-<title>404 Page not found | My New Hugo Site</title>
+-<meta name="keywords" content="">
+-<meta name="description" content="">
+-<meta name="author" content="">
+-<link rel="canonical" href="http://example.org/404.html">
+-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+-<link rel="icon" href="http://example.org/favicon.ico">
+-<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+-<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+-<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+-<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+-<meta name="theme-color" content="#2e2e33">
+-<meta name="msapplication-TileColor" content="#2e2e33">
+-<noscript>
+-    <style>
+-        #theme-toggle,
+-        .top-link {
+-            display: none;
+-        }
+-
+-    </style>
+-    <style>
+-        @media (prefers-color-scheme: dark) {
+-            :root {
+-                --theme: rgb(29, 30, 32);
+-                --entry: rgb(46, 46, 51);
+-                --primary: rgb(218, 218, 219);
+-                --secondary: rgb(155, 156, 157);
+-                --tertiary: rgb(65, 66, 68);
+-                --content: rgb(196, 196, 197);
+-                --hljs-bg: rgb(46, 46, 51);
+-                --code-bg: rgb(55, 56, 62);
+-                --border: rgb(51, 51, 51);
+-            }
+-
+-            .list {
+-                background: var(--theme);
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-track {
+-                background: 0 0;
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-thumb {
+-                border-color: var(--theme);
+-            }
+-        }
+-
+-    </style>
+-</noscript><meta property="og:title" content="404 Page not found" />
+-<meta property="og:description" content="" />
+-<meta property="og:type" content="website" />
+-<meta property="og:url" content="http://example.org/404.html" />
+-
+-<meta name="twitter:card" content="summary"/>
+-<meta name="twitter:title" content="404 Page not found"/>
+-<meta name="twitter:description" content=""/>
+-
+-</head>
+-
+-<body class="list" id="top">
+-<script>
+-    if (localStorage.getItem("pref-theme") === "dark") {
+-        document.body.classList.add('dark');
+-    } else if (localStorage.getItem("pref-theme") === "light") {
+-        document.body.classList.remove('dark')
+-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+-        document.body.classList.add('dark');
+-    }
+-
+-</script>
+-
+-<header class="header">
+-    <nav class="nav">
+-        <div class="logo">
+-            <a href="http://example.org/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+-            <div class="logo-switches">
+-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+-                    </svg>
+-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <circle cx="12" cy="12" r="5"></circle>
+-                        <line x1="12" y1="1" x2="12" y2="3"></line>
+-                        <line x1="12" y1="21" x2="12" y2="23"></line>
+-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+-                        <line x1="1" y1="12" x2="3" y2="12"></line>
+-                        <line x1="21" y1="12" x2="23" y2="12"></line>
+-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+-                    </svg>
+-                </button>
+-            </div>
+-        </div>
+-        <ul id="menu">
+-        </ul>
+-    </nav>
+-</header>
+-<main class="main">
+-<div class="not-found">404</div>
+-    </main>
+-    
+-<footer class="footer">
+-    <span>&copy; 2023 <a href="http://example.org/">My New Hugo Site</a></span>
+-    <span>
+-        Powered by
+-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+-    </span>
+-</footer>
+-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+-        <path d="M12 6H0l6-6z" />
+-    </svg>
+-</a>
+-
+-<script>
+-    let menu = document.getElementById('menu')
+-    if (menu) {
+-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+-        menu.onscroll = function () {
+-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+-        }
+-    }
+-
+-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+-        anchor.addEventListener("click", function (e) {
+-            e.preventDefault();
+-            var id = this.getAttribute("href").substr(1);
+-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+-                    behavior: "smooth"
+-                });
+-            } else {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+-            }
+-            if (id === "top") {
+-                history.replaceState(null, null, " ");
+-            } else {
+-                history.pushState(null, null, `#${id}`);
+-            }
+-        });
+-    });
+-
+-</script>
+-<script>
+-    var mybutton = document.getElementById("top-link");
+-    window.onscroll = function () {
+-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+-            mybutton.style.visibility = "visible";
+-            mybutton.style.opacity = "1";
+-        } else {
+-            mybutton.style.visibility = "hidden";
+-            mybutton.style.opacity = "0";
+-        }
+-    };
+-
+-</script>
+-<script>
+-    document.getElementById("theme-toggle").addEventListener("click", () => {
+-        if (document.body.className.includes("dark")) {
+-            document.body.classList.remove('dark');
+-            localStorage.setItem("pref-theme", 'light');
+-        } else {
+-            document.body.classList.add('dark');
+-            localStorage.setItem("pref-theme", 'dark');
+-        }
+-    })
+-
+-</script>
+-</body>
+-
+-</html>
+diff --git a/public/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css b/public/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css
+deleted file mode 100644
+index 0b0c470..0000000
+--- a/public/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css
++++ /dev/null
+@@ -1,7 +0,0 @@
+-/*
+-  PaperMod v7
+-  License: MIT https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE
+-  Copyright (c) 2020 nanxiaobei and adityatelange
+-  Copyright (c) 2021-2023 adityatelange
+-*/
+-:root{--gap:24px;--content-gap:20px;--nav-width:1024px;--main-width:720px;--header-height:60px;--footer-height:60px;--radius:8px;--theme:rgb(255, 255, 255);--entry:rgb(255, 255, 255);--primary:rgb(30, 30, 30);--secondary:rgb(108, 108, 108);--tertiary:rgb(214, 214, 214);--content:rgb(31, 31, 31);--hljs-bg:rgb(28, 29, 33);--code-bg:rgb(245, 245, 245);--border:rgb(238, 238, 238)}.dark{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--code-bg)}.dark.list{background:var(--theme)}*,::after,::before{box-sizing:border-box}html{-webkit-tap-highlight-color:transparent;overflow-y:scroll}a,button,body,h1,h2,h3,h4,h5,h6{color:var(--primary)}body{font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,Cantarell,open sans,helvetica neue,sans-serif;font-size:18px;line-height:1.6;word-break:break-word;background:var(--theme)}article,aside,figcaption,figure,footer,header,hgroup,main,nav,section,table{display:block}h1,h2,h3,h4,h5,h6{line-height:1.2}h1,h2,h3,h4,h5,h6,p{margin-top:0;margin-bottom:0}ul{padding:0}a{text-decoration:none}body,figure,ul{margin:0}table{width:100%;border-collapse:collapse;border-spacing:0;overflow-x:auto;word-break:keep-all}button,input,textarea{padding:0;font:inherit;background:0 0;border:0}input,textarea{outline:0}button,input[type=button],input[type=submit]{cursor:pointer}input:-webkit-autofill,textarea:-webkit-autofill{box-shadow:0 0 0 50px var(--theme)inset}img{display:block;max-width:100%}.not-found{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;height:80%;font-size:160px;font-weight:700}.archive-posts{width:100%;font-size:16px}.archive-year{margin-top:40px}.archive-year:not(:last-of-type){border-bottom:2px solid var(--border)}.archive-month{display:flex;align-items:flex-start;padding:10px 0}.archive-month-header{margin:25px 0;width:200px}.archive-month:not(:last-of-type){border-bottom:1px solid var(--border)}.archive-entry{position:relative;padding:5px;margin:10px 0}.archive-entry-title{margin:5px 0;font-weight:400}.archive-count,.archive-meta{color:var(--secondary);font-size:14px}.footer,.top-link{font-size:12px;color:var(--secondary)}.footer{max-width:calc(var(--main-width) + var(--gap) * 2);margin:auto;padding:calc((var(--footer-height) - var(--gap))/2)var(--gap);text-align:center;line-height:24px}.footer span{margin-inline-start:1px;margin-inline-end:1px}.footer span:last-child{white-space:nowrap}.footer a{color:inherit;border-bottom:1px solid var(--secondary)}.footer a:hover{border-bottom:1px solid var(--primary)}.top-link{visibility:hidden;position:fixed;bottom:60px;right:30px;z-index:99;background:var(--tertiary);width:42px;height:42px;padding:12px;border-radius:64px;transition:visibility .5s,opacity .8s linear}.top-link,.top-link svg{filter:drop-shadow(0 0 0 var(--theme))}.footer a:hover,.top-link:hover{color:var(--primary)}.top-link:focus,#theme-toggle:focus{outline:0}.nav{display:flex;flex-wrap:wrap;justify-content:space-between;max-width:calc(var(--nav-width) + var(--gap) * 2);margin-inline-start:auto;margin-inline-end:auto;line-height:var(--header-height)}.nav a{display:block}.logo,#menu{display:flex;margin:auto var(--gap)}.logo{flex-wrap:inherit}.logo a{font-size:24px;font-weight:700}.logo a img,.logo a svg{display:inline;vertical-align:middle;pointer-events:none;transform:translate(0,-10%);border-radius:6px;margin-inline-end:8px}button#theme-toggle{font-size:26px;margin:auto 4px}body.dark #moon{vertical-align:middle;display:none}body:not(.dark) #sun{display:none}#menu{list-style:none;word-break:keep-all;overflow-x:auto;white-space:nowrap}#menu li+li{margin-inline-start:var(--gap)}#menu a{font-size:16px}#menu .active{font-weight:500;border-bottom:2px solid}.lang-switch li,.lang-switch ul,.logo-switches{display:inline-flex;margin:auto 4px}.lang-switch{display:flex;flex-wrap:inherit}.lang-switch a{margin:auto 3px;font-size:16px;font-weight:500}.logo-switches{flex-wrap:inherit}.main{position:relative;min-height:calc(100vh - var(--header-height) - var(--footer-height));max-width:calc(var(--main-width) + var(--gap) * 2);margin:auto;padding:var(--gap)}.page-header h1{font-size:40px}.pagination{display:flex}.pagination a{color:var(--theme);font-size:13px;line-height:36px;background:var(--primary);border-radius:calc(36px/2);padding:0 16px}.pagination .next{margin-inline-start:auto}.social-icons{padding:12px 0}.social-icons a:not(:last-of-type){margin-inline-end:12px}.social-icons a svg{height:26px;width:26px}code{direction:ltr}div.highlight,pre{position:relative}.copy-code{display:none;position:absolute;top:4px;right:4px;color:rgba(255,255,255,.8);background:rgba(78,78,78,.8);border-radius:var(--radius);padding:0 5px;font-size:14px;user-select:none}div.highlight:hover .copy-code,pre:hover .copy-code{display:block}.first-entry{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:320px;margin:var(--gap)0 calc(var(--gap) * 2)}.first-entry .entry-header{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}.first-entry .entry-header h1{font-size:34px;line-height:1.3}.first-entry .entry-content{margin:14px 0;font-size:16px;-webkit-line-clamp:3}.first-entry .entry-footer{font-size:14px}.home-info .entry-content{-webkit-line-clamp:unset}.post-entry{position:relative;margin-bottom:var(--gap);padding:var(--gap);background:var(--entry);border-radius:var(--radius);transition:transform .1s;border:1px solid var(--border)}.post-entry:active{transform:scale(.96)}.tag-entry .entry-cover{display:none}.entry-header h2{font-size:24px;line-height:1.3}.entry-content{margin:8px 0;color:var(--secondary);font-size:14px;line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.entry-footer{color:var(--secondary);font-size:13px}.entry-link{position:absolute;left:0;right:0;top:0;bottom:0}.entry-cover,.entry-isdraft{font-size:14px;color:var(--secondary)}.entry-cover{margin-bottom:var(--gap);text-align:center}.entry-cover img{border-radius:var(--radius);pointer-events:none;width:100%;height:auto}.entry-cover a{color:var(--secondary);box-shadow:0 1px 0 var(--primary)}.page-header,.post-header{margin:24px auto var(--content-gap)}.post-title{margin-bottom:2px;font-size:40px}.post-description{margin-top:10px;margin-bottom:5px}.post-meta,.breadcrumbs{color:var(--secondary);font-size:14px;display:flex;flex-wrap:wrap}.post-meta .i18n_list li{display:inline-flex;list-style:none;margin:auto 3px;box-shadow:0 1px 0 var(--secondary)}.breadcrumbs a{font-size:16px}.post-content{color:var(--content)}.post-content h3,.post-content h4,.post-content h5,.post-content h6{margin:24px 0 16px}.post-content h1{margin:40px auto 32px;font-size:40px}.post-content h2{margin:32px auto 24px;font-size:32px}.post-content h3{font-size:24px}.post-content h4{font-size:16px}.post-content h5{font-size:14px}.post-content h6{font-size:12px}.post-content a,.toc a:hover{box-shadow:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}.post-content a code{margin:auto 0;border-radius:0;box-shadow:0 -1px 0 var(--primary)inset}.post-content del{text-decoration:line-through}.post-content dl,.post-content ol,.post-content p,.post-content figure,.post-content ul{margin-bottom:var(--content-gap)}.post-content ol,.post-content ul{padding-inline-start:20px}.post-content li{margin-top:5px}.post-content li p{margin-bottom:0}.post-content dl{display:flex;flex-wrap:wrap;margin:0}.post-content dt{width:25%;font-weight:700}.post-content dd{width:75%;margin-inline-start:0;padding-inline-start:10px}.post-content dd~dd,.post-content dt~dt{margin-top:10px}.post-content table{margin-bottom:32px}.post-content table th,.post-content table:not(.highlighttable,.highlight table,.gist .highlight) td{min-width:80px;padding:12px 8px;line-height:1.5;border-bottom:1px solid var(--border)}.post-content table th{font-size:14px;text-align:start}.post-content table:not(.highlighttable) td code:only-child{margin:auto 0}.post-content .highlight table{border-radius:var(--radius)}.post-content .highlight:not(table){margin:10px auto;background:var(--hljs-bg)!important;border-radius:var(--radius);direction:ltr}.post-content li>.highlight{margin-inline-end:0}.post-content ul pre{margin-inline-start:calc(var(--gap) * -2)}.post-content .highlight pre{margin:0}.post-content .highlighttable{table-layout:fixed}.post-content .highlighttable td:first-child{width:40px}.post-content .highlighttable td .linenodiv{padding-inline-end:0!important}.post-content .highlighttable td .highlight,.post-content .highlighttable td .linenodiv pre{margin-bottom:0}.post-content code{margin:auto 4px;padding:4px 6px;font-size:.78em;line-height:1.5;background:var(--code-bg);border-radius:2px}.post-content pre code{display:block;margin:auto 0;padding:10px;color:#d5d5d6;background:var(--hljs-bg)!important;border-radius:var(--radius);overflow-x:auto;word-break:break-all}.post-content blockquote{margin:20px 0;padding:0 14px;border-inline-start:3px solid var(--primary)}.post-content hr{margin:30px 0;height:2px;background:var(--tertiary);border:0}.post-content iframe{max-width:100%}.post-content img{border-radius:4px;margin:1rem 0}.post-content img[src*="#center"]{margin:1rem auto}.post-content figure.align-center{text-align:center}.post-content figure>figcaption{color:var(--primary);font-size:16px;font-weight:700;margin:8px 0 16px}.post-content figure>figcaption>p{color:var(--secondary);font-size:14px;font-weight:400}.toc{margin:0 2px 40px;border:1px solid var(--border);background:var(--code-bg);border-radius:var(--radius);padding:.4em}.dark .toc{background:var(--entry)}.toc details summary{cursor:zoom-in;margin-inline-start:20px}.toc details[open] summary{cursor:zoom-out}.toc .details{display:inline;font-weight:500}.toc .inner{margin:0 20px;padding:10px 20px}.toc li ul{margin-inline-start:var(--gap)}.toc summary:focus{outline:0}.post-footer{margin-top:56px}.post-tags li{display:inline-block;margin-inline-end:3px;margin-bottom:5px}.post-tags a,.share-buttons,.paginav{border-radius:var(--radius);background:var(--code-bg);border:1px solid var(--border)}.post-tags a{display:block;padding-inline-start:14px;padding-inline-end:14px;color:var(--secondary);font-size:14px;line-height:34px;background:var(--code-bg)}.post-tags a:hover,.paginav a:hover{background:var(--border)}.share-buttons{margin:14px 0;padding-inline-start:var(--radius);display:flex;justify-content:center;overflow-x:auto}.share-buttons a{margin-top:10px}.share-buttons a:not(:last-of-type){margin-inline-end:12px}h1:hover .anchor,h2:hover .anchor,h3:hover .anchor,h4:hover .anchor,h5:hover .anchor,h6:hover .anchor{display:inline-flex;color:var(--secondary);margin-inline-start:8px;font-weight:500;user-select:none}.paginav{margin:10px 0;display:flex;line-height:30px;border-radius:var(--radius)}.paginav a{padding-inline-start:14px;padding-inline-end:14px;border-radius:var(--radius)}.paginav .title{letter-spacing:1px;text-transform:uppercase;font-size:small;color:var(--secondary)}.paginav .prev,.paginav .next{width:50%}.paginav span:hover:not(.title){box-shadow:0 1px}.paginav .next{margin-inline-start:auto;text-align:right}[dir=rtl] .paginav .next{text-align:left}h1>a>svg{display:inline}img.in-text{display:inline;margin:auto}.buttons,.main .profile{display:flex;justify-content:center}.main .profile{align-items:center;min-height:calc(100vh - var(--header-height) - var(--footer-height) - (var(--gap) * 2));text-align:center}.profile .profile_inner h1{padding:12px 0}.profile img{display:inline-table;border-radius:50%}.buttons{flex-wrap:wrap;max-width:400px;margin:0 auto}.button{background:var(--tertiary);border-radius:var(--radius);margin:8px;padding:6px;transition:transform .1s}.button-inner{padding:0 8px}.button:active{transform:scale(.96)}#searchbox input{padding:4px 10px;width:100%;color:var(--primary);font-weight:700;border:2px solid var(--tertiary);border-radius:var(--radius)}#searchbox input:focus{border-color:var(--secondary)}#searchResults li{list-style:none;border-radius:var(--radius);padding:10px;margin:10px 0;position:relative;font-weight:500}#searchResults{margin:10px 0;width:100%}#searchResults li:active{transition:transform .1s;transform:scale(.98)}#searchResults a{position:absolute;width:100%;height:100%;top:0;left:0;outline:none}#searchResults .focus{transform:scale(.98);border:2px solid var(--tertiary)}.terms-tags li{display:inline-block;margin:10px;font-weight:500}.terms-tags a{display:block;padding:3px 10px;background:var(--tertiary);border-radius:6px;transition:transform .1s}.terms-tags a:active{background:var(--tertiary);transform:scale(.96)}.hljs-comment,.hljs-quote{color:#b6b18b}.hljs-deletion,.hljs-name,.hljs-regexp,.hljs-selector-class,.hljs-selector-id,.hljs-tag,.hljs-template-variable,.hljs-variable{color:#eb3c54}.hljs-built_in,.hljs-builtin-name,.hljs-link,.hljs-literal,.hljs-meta,.hljs-number,.hljs-params,.hljs-type{color:#e7ce56}.hljs-attribute{color:#ee7c2b}.hljs-addition,.hljs-bullet,.hljs-string,.hljs-symbol{color:#4fb4d7}.hljs-section,.hljs-title{color:#78bb65}.hljs-keyword,.hljs-selector-tag{color:#b45ea4}.hljs{display:block;overflow-x:auto;background:#1c1d21;color:#c0c5ce;padding:.5em}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-track{background:var(--code-bg)}::-webkit-scrollbar-thumb{background:var(--tertiary);border:5px solid var(--theme);border-radius:var(--radius)}.list:not(.dark)::-webkit-scrollbar-thumb{border:5px solid var(--code-bg)}::-webkit-scrollbar-thumb:hover{background:var(--secondary)}::-webkit-scrollbar:not(.highlighttable,.highlight table,.gist .highlight){background:var(--theme)}.post-content .highlighttable td .highlight pre code::-webkit-scrollbar{display:none}.post-content :not(table) ::-webkit-scrollbar-thumb{border:2px solid var(--hljs-bg);background:#717175}.post-content :not(table) ::-webkit-scrollbar-thumb:hover{background:#a3a3a5}.gist table::-webkit-scrollbar-thumb{border:2px solid #fff;background:#adadad}.gist table::-webkit-scrollbar-thumb:hover{background:#707070}.post-content table::-webkit-scrollbar-thumb{border-width:2px}@media screen and (min-width:768px){::-webkit-scrollbar{width:19px;height:11px}}@media screen and (max-width:768px){:root{--gap:14px}.profile img{transform:scale(.85)}.first-entry{min-height:260px}.archive-month{flex-direction:column}.archive-year{margin-top:20px}.footer{padding:calc((var(--footer-height) - var(--gap) - 10px)/2)var(--gap)}}@media screen and (max-width:900px){.list .top-link{transform:translateY(-5rem)}}@media(prefers-reduced-motion){.terms-tags a:active,.button:active,.post-entry:active,.top-link,#searchResults .focus,#searchResults li:active{transform:none}}
+\ No newline at end of file
+diff --git a/public/categories/index.html b/public/categories/index.html
+deleted file mode 100644
+index 0b44180..0000000
+--- a/public/categories/index.html
++++ /dev/null
+@@ -1,191 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en" dir="auto">
+-
+-<head><meta charset="utf-8">
+-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+-<meta name="robots" content="index, follow">
+-<title>Categories | My New Hugo Site</title>
+-<meta name="keywords" content="">
+-<meta name="description" content="">
+-<meta name="author" content="">
+-<link rel="canonical" href="http://example.org/categories/">
+-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+-<link rel="icon" href="http://example.org/favicon.ico">
+-<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+-<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+-<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+-<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+-<meta name="theme-color" content="#2e2e33">
+-<meta name="msapplication-TileColor" content="#2e2e33">
+-<link rel="alternate" type="application/rss+xml" href="http://example.org/categories/index.xml">
+-<noscript>
+-    <style>
+-        #theme-toggle,
+-        .top-link {
+-            display: none;
+-        }
+-
+-    </style>
+-    <style>
+-        @media (prefers-color-scheme: dark) {
+-            :root {
+-                --theme: rgb(29, 30, 32);
+-                --entry: rgb(46, 46, 51);
+-                --primary: rgb(218, 218, 219);
+-                --secondary: rgb(155, 156, 157);
+-                --tertiary: rgb(65, 66, 68);
+-                --content: rgb(196, 196, 197);
+-                --hljs-bg: rgb(46, 46, 51);
+-                --code-bg: rgb(55, 56, 62);
+-                --border: rgb(51, 51, 51);
+-            }
+-
+-            .list {
+-                background: var(--theme);
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-track {
+-                background: 0 0;
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-thumb {
+-                border-color: var(--theme);
+-            }
+-        }
+-
+-    </style>
+-</noscript><meta property="og:title" content="Categories" />
+-<meta property="og:description" content="" />
+-<meta property="og:type" content="website" />
+-<meta property="og:url" content="http://example.org/categories/" />
+-
+-<meta name="twitter:card" content="summary"/>
+-<meta name="twitter:title" content="Categories"/>
+-<meta name="twitter:description" content=""/>
+-
+-</head>
+-
+-<body class="list" id="top">
+-<script>
+-    if (localStorage.getItem("pref-theme") === "dark") {
+-        document.body.classList.add('dark');
+-    } else if (localStorage.getItem("pref-theme") === "light") {
+-        document.body.classList.remove('dark')
+-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+-        document.body.classList.add('dark');
+-    }
+-
+-</script>
+-
+-<header class="header">
+-    <nav class="nav">
+-        <div class="logo">
+-            <a href="http://example.org/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+-            <div class="logo-switches">
+-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+-                    </svg>
+-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <circle cx="12" cy="12" r="5"></circle>
+-                        <line x1="12" y1="1" x2="12" y2="3"></line>
+-                        <line x1="12" y1="21" x2="12" y2="23"></line>
+-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+-                        <line x1="1" y1="12" x2="3" y2="12"></line>
+-                        <line x1="21" y1="12" x2="23" y2="12"></line>
+-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+-                    </svg>
+-                </button>
+-            </div>
+-        </div>
+-        <ul id="menu">
+-        </ul>
+-    </nav>
+-</header>
+-<main class="main">
+-<header class="page-header">
+-    <h1>Categories</h1>
+-</header>
+-
+-<ul class="terms-tags">
+-</ul>
+-    </main>
+-    
+-<footer class="footer">
+-    <span>&copy; 2023 <a href="http://example.org/">My New Hugo Site</a></span>
+-    <span>
+-        Powered by
+-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+-    </span>
+-</footer>
+-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+-        <path d="M12 6H0l6-6z" />
+-    </svg>
+-</a>
+-
+-<script>
+-    let menu = document.getElementById('menu')
+-    if (menu) {
+-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+-        menu.onscroll = function () {
+-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+-        }
+-    }
+-
+-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+-        anchor.addEventListener("click", function (e) {
+-            e.preventDefault();
+-            var id = this.getAttribute("href").substr(1);
+-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+-                    behavior: "smooth"
+-                });
+-            } else {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+-            }
+-            if (id === "top") {
+-                history.replaceState(null, null, " ");
+-            } else {
+-                history.pushState(null, null, `#${id}`);
+-            }
+-        });
+-    });
+-
+-</script>
+-<script>
+-    var mybutton = document.getElementById("top-link");
+-    window.onscroll = function () {
+-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+-            mybutton.style.visibility = "visible";
+-            mybutton.style.opacity = "1";
+-        } else {
+-            mybutton.style.visibility = "hidden";
+-            mybutton.style.opacity = "0";
+-        }
+-    };
+-
+-</script>
+-<script>
+-    document.getElementById("theme-toggle").addEventListener("click", () => {
+-        if (document.body.className.includes("dark")) {
+-            document.body.classList.remove('dark');
+-            localStorage.setItem("pref-theme", 'light');
+-        } else {
+-            document.body.classList.add('dark');
+-            localStorage.setItem("pref-theme", 'dark');
+-        }
+-    })
+-
+-</script>
+-</body>
+-
+-</html>
+diff --git a/public/categories/index.xml b/public/categories/index.xml
+deleted file mode 100644
+index 0baf6b4..0000000
+--- a/public/categories/index.xml
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+-  <channel>
+-    <title>Categories on My New Hugo Site</title>
+-    <link>http://example.org/categories/</link>
+-    <description>Recent content in Categories on My New Hugo Site</description>
+-    <generator>Hugo -- gohugo.io</generator>
+-    <language>en-us</language><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+-  </channel>
+-</rss>
+diff --git a/public/index.html b/public/index.html
+deleted file mode 100644
+index 1a006e6..0000000
+--- a/public/index.html
++++ /dev/null
+@@ -1,199 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en" dir="auto">
+-
+-<head>
+-	<meta name="generator" content="Hugo 0.115.0"><meta charset="utf-8">
+-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+-<meta name="robots" content="index, follow">
+-<title>My New Hugo Site</title>
+-
+-<meta name="description" content="">
+-<meta name="author" content="">
+-<link rel="canonical" href="http://example.org/">
+-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+-<link rel="icon" href="http://example.org/favicon.ico">
+-<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+-<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+-<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+-<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+-<meta name="theme-color" content="#2e2e33">
+-<meta name="msapplication-TileColor" content="#2e2e33">
+-<link rel="alternate" type="application/rss+xml" href="http://example.org/index.xml">
+-<noscript>
+-    <style>
+-        #theme-toggle,
+-        .top-link {
+-            display: none;
+-        }
+-
+-    </style>
+-    <style>
+-        @media (prefers-color-scheme: dark) {
+-            :root {
+-                --theme: rgb(29, 30, 32);
+-                --entry: rgb(46, 46, 51);
+-                --primary: rgb(218, 218, 219);
+-                --secondary: rgb(155, 156, 157);
+-                --tertiary: rgb(65, 66, 68);
+-                --content: rgb(196, 196, 197);
+-                --hljs-bg: rgb(46, 46, 51);
+-                --code-bg: rgb(55, 56, 62);
+-                --border: rgb(51, 51, 51);
+-            }
+-
+-            .list {
+-                background: var(--theme);
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-track {
+-                background: 0 0;
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-thumb {
+-                border-color: var(--theme);
+-            }
+-        }
+-
+-    </style>
+-</noscript><meta property="og:title" content="My New Hugo Site" />
+-<meta property="og:description" content="" />
+-<meta property="og:type" content="website" />
+-<meta property="og:url" content="http://example.org/" />
+-
+-<meta name="twitter:card" content="summary"/>
+-<meta name="twitter:title" content="My New Hugo Site"/>
+-<meta name="twitter:description" content=""/>
+-
+-<script type="application/ld+json">
+-{
+-  "@context": "https://schema.org",
+-  "@type": "Organization",
+-  "name": "My New Hugo Site",
+-  "url": "http://example.org/",
+-  "description": "",
+-  "thumbnailUrl": "http://example.org/favicon.ico",
+-  "sameAs": [
+-      
+-  ]
+-}
+-</script>
+-</head>
+-
+-<body class="list" id="top">
+-<script>
+-    if (localStorage.getItem("pref-theme") === "dark") {
+-        document.body.classList.add('dark');
+-    } else if (localStorage.getItem("pref-theme") === "light") {
+-        document.body.classList.remove('dark')
+-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+-        document.body.classList.add('dark');
+-    }
+-
+-</script>
+-
+-<header class="header">
+-    <nav class="nav">
+-        <div class="logo">
+-            <a href="http://example.org/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+-            <div class="logo-switches">
+-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+-                    </svg>
+-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <circle cx="12" cy="12" r="5"></circle>
+-                        <line x1="12" y1="1" x2="12" y2="3"></line>
+-                        <line x1="12" y1="21" x2="12" y2="23"></line>
+-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+-                        <line x1="1" y1="12" x2="3" y2="12"></line>
+-                        <line x1="21" y1="12" x2="23" y2="12"></line>
+-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+-                    </svg>
+-                </button>
+-            </div>
+-        </div>
+-        <ul id="menu">
+-        </ul>
+-    </nav>
+-</header>
+-<main class="main"> 
+-    </main>
+-    
+-<footer class="footer">
+-    <span>&copy; 2023 <a href="http://example.org/">My New Hugo Site</a></span>
+-    <span>
+-        Powered by
+-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+-    </span>
+-</footer>
+-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+-        <path d="M12 6H0l6-6z" />
+-    </svg>
+-</a>
+-
+-<script>
+-    let menu = document.getElementById('menu')
+-    if (menu) {
+-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+-        menu.onscroll = function () {
+-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+-        }
+-    }
+-
+-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+-        anchor.addEventListener("click", function (e) {
+-            e.preventDefault();
+-            var id = this.getAttribute("href").substr(1);
+-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+-                    behavior: "smooth"
+-                });
+-            } else {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+-            }
+-            if (id === "top") {
+-                history.replaceState(null, null, " ");
+-            } else {
+-                history.pushState(null, null, `#${id}`);
+-            }
+-        });
+-    });
+-
+-</script>
+-<script>
+-    var mybutton = document.getElementById("top-link");
+-    window.onscroll = function () {
+-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+-            mybutton.style.visibility = "visible";
+-            mybutton.style.opacity = "1";
+-        } else {
+-            mybutton.style.visibility = "hidden";
+-            mybutton.style.opacity = "0";
+-        }
+-    };
+-
+-</script>
+-<script>
+-    document.getElementById("theme-toggle").addEventListener("click", () => {
+-        if (document.body.className.includes("dark")) {
+-            document.body.classList.remove('dark');
+-            localStorage.setItem("pref-theme", 'light');
+-        } else {
+-            document.body.classList.add('dark');
+-            localStorage.setItem("pref-theme", 'dark');
+-        }
+-    })
+-
+-</script>
+-</body>
+-
+-</html>
+diff --git a/public/index.xml b/public/index.xml
+deleted file mode 100644
+index fd80da5..0000000
+--- a/public/index.xml
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+-  <channel>
+-    <title>My New Hugo Site</title>
+-    <link>http://example.org/</link>
+-    <description>Recent content on My New Hugo Site</description>
+-    <generator>Hugo -- gohugo.io</generator>
+-    <language>en-us</language><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+-  </channel>
+-</rss>
+diff --git a/public/page/1/index.html b/public/page/1/index.html
+deleted file mode 100644
+index 6edb40b..0000000
+--- a/public/page/1/index.html
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en-us">
+-  <head>
+-    <title>http://example.org/</title>
+-    <link rel="canonical" href="http://example.org/">
+-    <meta name="robots" content="noindex">
+-    <meta charset="utf-8">
+-    <meta http-equiv="refresh" content="0; url=http://example.org/">
+-  </head>
+-</html>
+diff --git a/public/sitemap.xml b/public/sitemap.xml
+deleted file mode 100644
+index 45379db..0000000
+--- a/public/sitemap.xml
++++ /dev/null
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+-  <url>
+-    <loc>http://example.org/categories/</loc>
+-  </url><url>
+-    <loc>http://example.org/</loc>
+-  </url><url>
+-    <loc>http://example.org/tags/</loc>
+-  </url>
+-</urlset>
+diff --git a/public/tags/index.html b/public/tags/index.html
+deleted file mode 100644
+index b9f8bda..0000000
+--- a/public/tags/index.html
++++ /dev/null
+@@ -1,191 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en" dir="auto">
+-
+-<head><meta charset="utf-8">
+-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+-<meta name="robots" content="index, follow">
+-<title>Tags | My New Hugo Site</title>
+-<meta name="keywords" content="">
+-<meta name="description" content="">
+-<meta name="author" content="">
+-<link rel="canonical" href="http://example.org/tags/">
+-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+-<link rel="icon" href="http://example.org/favicon.ico">
+-<link rel="icon" type="image/png" sizes="16x16" href="http://example.org/favicon-16x16.png">
+-<link rel="icon" type="image/png" sizes="32x32" href="http://example.org/favicon-32x32.png">
+-<link rel="apple-touch-icon" href="http://example.org/apple-touch-icon.png">
+-<link rel="mask-icon" href="http://example.org/safari-pinned-tab.svg">
+-<meta name="theme-color" content="#2e2e33">
+-<meta name="msapplication-TileColor" content="#2e2e33">
+-<link rel="alternate" type="application/rss+xml" href="http://example.org/tags/index.xml">
+-<noscript>
+-    <style>
+-        #theme-toggle,
+-        .top-link {
+-            display: none;
+-        }
+-
+-    </style>
+-    <style>
+-        @media (prefers-color-scheme: dark) {
+-            :root {
+-                --theme: rgb(29, 30, 32);
+-                --entry: rgb(46, 46, 51);
+-                --primary: rgb(218, 218, 219);
+-                --secondary: rgb(155, 156, 157);
+-                --tertiary: rgb(65, 66, 68);
+-                --content: rgb(196, 196, 197);
+-                --hljs-bg: rgb(46, 46, 51);
+-                --code-bg: rgb(55, 56, 62);
+-                --border: rgb(51, 51, 51);
+-            }
+-
+-            .list {
+-                background: var(--theme);
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-track {
+-                background: 0 0;
+-            }
+-
+-            .list:not(.dark)::-webkit-scrollbar-thumb {
+-                border-color: var(--theme);
+-            }
+-        }
+-
+-    </style>
+-</noscript><meta property="og:title" content="Tags" />
+-<meta property="og:description" content="" />
+-<meta property="og:type" content="website" />
+-<meta property="og:url" content="http://example.org/tags/" />
+-
+-<meta name="twitter:card" content="summary"/>
+-<meta name="twitter:title" content="Tags"/>
+-<meta name="twitter:description" content=""/>
+-
+-</head>
+-
+-<body class="list" id="top">
+-<script>
+-    if (localStorage.getItem("pref-theme") === "dark") {
+-        document.body.classList.add('dark');
+-    } else if (localStorage.getItem("pref-theme") === "light") {
+-        document.body.classList.remove('dark')
+-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+-        document.body.classList.add('dark');
+-    }
+-
+-</script>
+-
+-<header class="header">
+-    <nav class="nav">
+-        <div class="logo">
+-            <a href="http://example.org/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+-            <div class="logo-switches">
+-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+-                    </svg>
+-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                        stroke-linejoin="round">
+-                        <circle cx="12" cy="12" r="5"></circle>
+-                        <line x1="12" y1="1" x2="12" y2="3"></line>
+-                        <line x1="12" y1="21" x2="12" y2="23"></line>
+-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+-                        <line x1="1" y1="12" x2="3" y2="12"></line>
+-                        <line x1="21" y1="12" x2="23" y2="12"></line>
+-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+-                    </svg>
+-                </button>
+-            </div>
+-        </div>
+-        <ul id="menu">
+-        </ul>
+-    </nav>
+-</header>
+-<main class="main">
+-<header class="page-header">
+-    <h1>Tags</h1>
+-</header>
+-
+-<ul class="terms-tags">
+-</ul>
+-    </main>
+-    
+-<footer class="footer">
+-    <span>&copy; 2023 <a href="http://example.org/">My New Hugo Site</a></span>
+-    <span>
+-        Powered by
+-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+-    </span>
+-</footer>
+-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+-        <path d="M12 6H0l6-6z" />
+-    </svg>
+-</a>
+-
+-<script>
+-    let menu = document.getElementById('menu')
+-    if (menu) {
+-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+-        menu.onscroll = function () {
+-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+-        }
+-    }
+-
+-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+-        anchor.addEventListener("click", function (e) {
+-            e.preventDefault();
+-            var id = this.getAttribute("href").substr(1);
+-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+-                    behavior: "smooth"
+-                });
+-            } else {
+-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+-            }
+-            if (id === "top") {
+-                history.replaceState(null, null, " ");
+-            } else {
+-                history.pushState(null, null, `#${id}`);
+-            }
+-        });
+-    });
+-
+-</script>
+-<script>
+-    var mybutton = document.getElementById("top-link");
+-    window.onscroll = function () {
+-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+-            mybutton.style.visibility = "visible";
+-            mybutton.style.opacity = "1";
+-        } else {
+-            mybutton.style.visibility = "hidden";
+-            mybutton.style.opacity = "0";
+-        }
+-    };
+-
+-</script>
+-<script>
+-    document.getElementById("theme-toggle").addEventListener("click", () => {
+-        if (document.body.className.includes("dark")) {
+-            document.body.classList.remove('dark');
+-            localStorage.setItem("pref-theme", 'light');
+-        } else {
+-            document.body.classList.add('dark');
+-            localStorage.setItem("pref-theme", 'dark');
+-        }
+-    })
+-
+-</script>
+-</body>
+-
+-</html>
+diff --git a/public/tags/index.xml b/public/tags/index.xml
+deleted file mode 100644
+index 2533dd5..0000000
+--- a/public/tags/index.xml
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+-  <channel>
+-    <title>Tags on My New Hugo Site</title>
+-    <link>http://example.org/tags/</link>
+-    <description>Recent content in Tags on My New Hugo Site</description>
+-    <generator>Hugo -- gohugo.io</generator>
+-    <language>en-us</language><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+-  </channel>
+-</rss>
+diff --git a/themes/PaperMod b/themes/PaperMod
+deleted file mode 160000
+index 804a868..0000000
+--- a/themes/PaperMod
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 804a8682f3f060e17a1a6f101704af2990834712
